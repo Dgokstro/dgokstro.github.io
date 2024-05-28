@@ -39,4 +39,5 @@ jobs:
         run: pnpm run build
 
       - name: Deploy on GHPages
-       uses: actions/upload-pages-artifact@v3
+         uses: actions/upload-pages-artifact@v3.0.1
+
