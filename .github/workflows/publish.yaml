@@ -38,6 +38,6 @@ jobs:
       - name: Build Prod
         run: pnpm run build
 
-      - name: Deploy on GHPages
-         uses: actions/upload-pages-artifact@v3.0.1
-
+       - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
