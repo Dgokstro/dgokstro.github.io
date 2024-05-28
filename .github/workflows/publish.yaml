@@ -1,0 +1,39 @@
+name: Deploy Github app
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-app:
+    name: Build app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: 🥷 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 9
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: pnpm-cache
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: steps.pnpm-cache.outputs.cache-hit != 'true'
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build Prod
+        run: pnpm run build
