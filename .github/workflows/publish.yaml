@@ -37,3 +37,6 @@ jobs:
 
       - name: Build Prod
         run: pnpm run build
+
+      -name: Deploy on GHPages
+       uses: upload-pages-artifact@3
